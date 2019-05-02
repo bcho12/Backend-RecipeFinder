@@ -6,9 +6,9 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-u1 = User.create(username: "brian", password_digest: "1234")
-u2 = User.create(username: "james", password_digest: "12345")
-u3 = User.create(username: "heather", password_digest: "123456")
+u1 = User.create(username: "brian", password: "1234")
+u2 = User.create(username: "james", password: "12345")
+u3 = User.create(username: "heather", password: "123456")
 
 recipe1 = Recipe.create(title: "Meatloaf", href: "google.com", ingredients: "tomato, spinach", thumbnail: "https://images-gmi-pmc.edge-generalmills.com/3e0ded09-f8a2-45b6-aff7-e08ab138ed84.jpg")
 recipe2 = Recipe.create(title: "Lasagna", href: "facebook.com", ingredients: "oregano, spinach, lettuce", thumbnail: "https://www.thewholesomedish.com/wp-content/uploads/2018/07/Best-Lasagna-550-500x500.jpg")

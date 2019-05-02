@@ -1,6 +1,5 @@
 class UsersController < ApplicationController
-	# before_action :authorized, except: [:index, :show, :create]
-	skip_before_action :authorized, only: [:show, :create]
+	before_action :authorized, except: [:index, :show, :create]
 
   def index
     @users = User.all
@@ -11,12 +10,6 @@ class UsersController < ApplicationController
 		@user = User.find(params[:id])
     render json: @user.as_json(:include => :recipes), status: :ok
   end
-
-	def profile
-		# binding.pry
-		render json: { user: current_user.user_json }
-		# render json: { user: current_user.user }
-	end
 
 	# def create
 	# 	@user = User.new(user_params)
@@ -30,19 +23,18 @@ class UsersController < ApplicationController
 
 	def create
 		@user = User.new(user_params)
-		if @user && @user.valid?
-				@user.save
-				@token = encode_token(user_id: @user.id)
-				render json: { user: @user, jwt: @token }, status: :created
+		if @user.save
+			@token = encode_token(user_id: @user.id)
+			render json: { user: @user, jwt: @token }, status: :created
 		else
-				render json: { error: @user.errors.full_messages }, status: :not_acceptable
+			render json: { errors: @user.errors.full_messages }, status: :unprocessable_entity
 		end
 end
 
   private
 
   def user_params
-    params.require(:user).permit(:username, :password_digest, :password_confirmation)
+    params.permit(:username, :password)
   end
 
   # def find_user
