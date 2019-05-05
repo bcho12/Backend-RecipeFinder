@@ -5,11 +5,11 @@ class RecipesController < ApplicationController
 	def fetch
 
 		@ingredient = request.headers['ingredient']
-		# @title = request.headers['title']
+		@title = request.headers['title']
 		@pageNumber = request.headers['pageNumber']
 
 		# @result = RestClient.get("http://www.recipepuppy.com/api/?i=#{@ingredient}")
-		@result = RestClient.get("http://www.recipepuppy.com/api/?i=#onions")
+		@result = RestClient.get("http://www.recipepuppy.com/api/?q=#{@title}&p=1")
 
 		@api_data = JSON.parse(@result.body)
 
