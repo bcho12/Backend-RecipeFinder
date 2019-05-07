@@ -9,7 +9,7 @@ class RecipesController < ApplicationController
 		@pageNumber = request.headers['pageNumber']
 
 		# @result = RestClient.get("http://www.recipepuppy.com/api/?i=#{@ingredient}")
-		@result = RestClient.get("http://www.recipepuppy.com/api/?q=#{@title}&p=1")
+		@result = RestClient.get("http://www.recipepuppy.com/api/?q=#{@title}&p=#{@pageNumber}")
 
 		@api_data = JSON.parse(@result.body)
 
