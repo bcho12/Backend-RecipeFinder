@@ -1,5 +1,5 @@
 class FavoritesController < ApplicationController
-	before_action :authorized, except: [:index, :create, :destroy]
+	before_action :authorized, except: [:index, :create]
 
   def index
     @favorites = Favorite.all
@@ -7,14 +7,23 @@ class FavoritesController < ApplicationController
   end
 
 	def create
-    @favorite = Favorite.new(favorite_params)
-    if @favorite && @favorite.valid?
-      @favorite.save
-      render json: @favorite, status: :created
-    else
-      render json: { errors: @favorite.errors.full_messages }, status: :not_accepted
-    end
+		@favorite = Favorite.new(recipe_id: favorites_params['recipe_id'], user_id: favorites_params['user_id'])
+		if @favorite.save
+			render json: @favorite, status: :created
+		else
+			render json: @favorite.errors.full_messages, status: :unprocessable_entity
+		end
   end
+
+	# def create
+  #   @favorite = Favorite.new(favorite_params)
+  #   if @favorite && @favorite.valid?
+  #     @favorite.save
+  #     render json: @favorite, status: :created
+  #   else
+  #     render json: { errors: @favorite.errors.full_messages }, status: :not_accepted
+  #   end
+  # end
 
 	# def destroy
   #   @favorite = Favorite.find(params[:id])
@@ -37,7 +46,7 @@ class FavoritesController < ApplicationController
 
   private
 
-  def favorite_params
+  def favorites_params
     params.permit(:user_id, :recipe_id)
   end
 
